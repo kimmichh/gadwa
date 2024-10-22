@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دراسة جدوى - مشروع بوكيهات ورد صناعي</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            direction: rtl;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: #2b2b2b;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #702283;
+        }
+
+        .section {
+            margin: 20px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #eceef7;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #eceef7;
+            color: #333;
+        }
+
+        #results p {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .buttons {
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #702283;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            touch-action: manipulation; /* لتحسين تفاعل اللمس */
+        }
+
+        button:hover {
+            background-color: #5a1d65;
+        }
+
+        /* التحكم في العناصر الصغيرة */
+        @media screen and (max-width: 768px) {
+            .container {
+                max-width: 100%;
+                margin: 10px;
+                padding: 15px;
+            }
+
+            h1, h2 {
+                font-size: 1.5em;
+            }
+
+            input[type="number"] {
+                padding: 8px;
+            }
+
+            button {
+                padding: 12px 24px; /* زيادة الحجم */
+                margin: 8px;
+                font-size: 14px;
+            }
+        }
+
+        /* التحكم في الهواتف الذكية */
+        @media screen and (max-width: 480px) {
+            h1, h2 {
+                font-size: 1.2em;
+            }
+
+            .container {
+                padding: 10px;
+                box-shadow: none;
+            }
+
+            button {
+                padding: 10px 20px; /* زيادة الحجم */
+                margin: 6px;
+                font-size: 14px;
+            }
+
+            input[type="number"] {
+                padding: 6px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>دراسة جدوى مشروع بوكيهات ورد صناعي</h1>
+        
+        <!-- قسم التكاليف -->
+        <section class="section">
+            <h2>التكاليف المبدئية</h2>
+            <label>عدد البوكيهات المتوقع شهريًا:</label>
+            <input type="number" id="bouquetsCount" value="20" min="1">
+
+            <div class="cost-section">
+                <label>تكلفة الورود الصناعية للبوكيه الواحد (جنيه):</label>
+                <input type="number" id="flowerCost" value="100">
+                
+                <label>تكلفة التغليف والتعبئة (جنيه):</label>
+                <input type="number" id="packagingCost" value="15">
+                
+                <label>تكلفة الإعلان الشهرية (جنيه):</label>
+                <input type="number" id="adCost" value="750">
+                
+                <label>تكلفة التوصيل للبوكيه الواحد (جنيه):</label>
+                <input type="number" id="shippingCost" value="30">
+            </div>
+        </section>
+
+        <!-- قسم التسعير -->
+        <section class="section">
+            <h2>التسعير</h2>
+            <label>سعر البيع للبوكيه الواحد (جنيه):</label>
+            <input type="number" id="salePrice" value="250">
+        </section>
+
+        <!-- حسابات المشروع -->
+        <section class="section">
+            <h2>الحسابات</h2>
+            <div id="results">
+                <p>إجمالي المبيعات الشهرية: <span id="totalSales">0</span> جنيه</p>
+                <p>إجمالي التكاليف الشهرية: <span id="totalCost">0</span> جنيه</p>
+                <p>صافي الربح الشهري: <span id="netProfit">0</span> جنيه</p>
+                <p>مدة استرجاع رأس المال: <span id="paybackTime">0</span> شهر</p>
+            </div>
+        </section>
+
+        <!-- الأزرار -->
+        <div class="buttons">
+            <button onclick="calculate()">حساب التكلفة والربح</button>
+            <button onclick="resetForm()">إعادة تعيين</button>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            // جلب القيم المدخلة
+            let bouquetsCount = parseFloat(document.getElementById('bouquetsCount').value);
+            let flowerCost = parseFloat(document.getElementById('flowerCost').value);
+            let packagingCost = parseFloat(document.getElementById('packagingCost').value);
+            let adCost = parseFloat(document.getElementById('adCost').value);
+            let shippingCost = parseFloat(document.getElementById('shippingCost').value);
+            let salePrice = parseFloat(document.getElementById('salePrice').value);
+
+            // حسابات التكاليف
+            let totalCost = bouquetsCount * (flowerCost + packagingCost + shippingCost) + adCost;
+            let totalSales = bouquetsCount * salePrice;
+            let netProfit = totalSales - totalCost;
+
+            // مدة استرجاع رأس المال
+            let paybackTime = (netProfit > 0) ? Math.ceil(totalCost / netProfit) : 'غير متاحة';
+
+            // عرض النتائج
+            document.getElementById('totalCost').textContent = totalCost.toFixed(2);
+            document.getElementById('totalSales').textContent = totalSales.toFixed(2);
+            document.getElementById('netProfit').textContent = netProfit.toFixed(2);
+            document.getElementById('paybackTime').textContent = paybackTime;
+        }
+
+        function resetForm() {
+            // إعادة تعيين القيم إلى الافتراضية
+            document.getElementById('bouquetsCount').value = 20;
+            document.getElementById('flowerCost').value = 100;
+            document.getElementById('packagingCost').value = 15;
+            document.getElementById('adCost').value = 750;
+            document.getElementById('shippingCost').value = 30;
+            document.getElementById('salePrice').value = 250;
+
+            // إعادة تعيين النتائج
+            document.getElementById('totalCost').textContent = '0';
+            document.getElementById('totalSales').textContent = '0';
+            document.getElementById('netProfit').textContent = '0';
+            document.getElementById('paybackTime').textContent = '0';
+        }
+    </script>
+</body>
+</html>
